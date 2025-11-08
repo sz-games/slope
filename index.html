@@ -1,24 +1,104 @@
 <head>
-    
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-C78TXR0XFK"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <script
+    async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3723218062742398"
+    crossorigin="anonymous"
+    data-ad-channel="9267153333"
+    data-ad-client="ca-pub-3723218062742398"
+    data-ad-frequency-hint="15s"
+  ></script>
+  <script>
+    window.adsbygoogle = window.adsbygoogle || []
+    var adBreak = (adConfig = function (o) {
+      adsbygoogle.push(o)
+    })
+    console.log('🚀 H5 Ad API initialized')
+  </script>
 
-  gtag('config', 'G-C78TXR0XFK');
-</script>
-    <title>Slope</title>
-    <link rel="icon" href="icon.ico">
-    <link rel="stylesheet" href="TemplateData/style.css">
-    <script src="TemplateData/UnityProgress.js"></script>
-    <script src="TemplateData/unityloader41.js"></script>
-    <script>
-        var gameInstance = UnityLoader.instantiate("gameContainer", "Build/slope.json", { onProgress: UnityProgress, Module: { onRuntimeInitialized: function() { UnityProgress(gameInstance, "complete") } } });
-    </script>
+  <script>
+    function showPreroll() {
+      adBreak({
+        type: 'preroll',
+        name: 'game-start',
+        adBreakDone: (placementInfo) => {
+          console.log('Preroll complete. Status:', placementInfo.breakStatus)
+        },
+      })
+    }
+
+    adConfig({
+      preloadAdBreaks: 'on',
+      onReady: () => {
+        console.log('H5 Ads API is ready.')
+        showPreroll()
+      },
+    })
+
+    document.addEventListener('gameOver', function () {
+      console.log('Game Over - calling interstitial ad.')
+      adBreak({
+        type: 'next', //
+        name: 'game-over',
+      })
+    })
+
+    document.addEventListener('gameWon', function () {
+      console.log('Game Won - calling rewarded ad.')
+      adBreak({
+        type: 'reward',
+        name: 'game-won',
+        adBreakDone: (placementInfo) => {
+          if (placementInfo.breakStatus === 'viewed') {
+            console.log('User watched rewarded ad - grant bonus!')
+            // Grant reward to user
+          }
+        },
+      })
+    })
+
+    function showRewardedAd() {
+      adBreak({
+        type: 'reward',
+        name: 'user-requested-reward',
+        adBreakDone: (placementInfo) => {
+          if (placementInfo.breakStatus === 'viewed') {
+            console.log('User earned reward!')
+            // Grant reward logic here
+          }
+        },
+      })
+    }
+
+    window.showRewardedAd = showRewardedAd
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-C78TXR0XFK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || []
+    function gtag() {
+      dataLayer.push(arguments)
+    }
+    gtag('js', new Date())
+
+    gtag('config', 'G-C78TXR0XFK')
+  </script>
+  <title>Slope</title>
+  <link rel="icon" href="icon.ico" />
+  <link rel="stylesheet" href="TemplateData/style.css" />
+  <script src="TemplateData/UnityProgress.js"></script>
+  <script src="TemplateData/unityloader41.js"></script>
+  <script>
+    var gameInstance = UnityLoader.instantiate('gameContainer', 'Build/slope.json', {
+      onProgress: UnityProgress,
+      Module: {
+        onRuntimeInitialized: function () {
+          UnityProgress(gameInstance, 'complete')
+        },
+      },
+    })
+  </script>
 </head>
-<body style="margin: 0; overflow: hidden;">
-    <div class="webgl-content">
-        <div id="gameContainer" style="width: 100%; height: 100%; margin: 0;"></div>
-    </div>
+<body style="margin: 0; overflow: hidden">
+  <div class="webgl-content">
+    <div id="gameContainer" style="width: 100%; height: 100%; margin: 0"></div>
+  </div>
 </body>
